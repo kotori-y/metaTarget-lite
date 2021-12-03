@@ -1,16 +1,16 @@
 <template>
   <div :class="{'input-mol': true, active: nowStatus}">
     <label v-show="nowStatus" for="single-smiles">Input your SMILES following...</label>
-    <input v-show="nowStatus" id="single-smiles" type="text" placeholder="Input your SMILES here...">
-    <HomeInputButton v-show="nowStatus"></HomeInputButton>
-    <Mask v-show="!nowStatus" @click="adjustedWidth"></Mask>
+    <input v-show="nowStatus" v-model="smiles" id="single-smiles" type="text" placeholder="Input your SMILES here...">
+    <HomeInputButton v-show="nowStatus" :not-allowed="notAllowed" :fill-example="fillExample"></HomeInputButton>
+    <Mask v-show="!nowStatus" @click="adjustedWidth" :msg="maskMsg"></Mask>
   </div>
 </template>
 
 <script lang="ts">
 import './style.css'
 import store from '@/store'
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import HomeInputButton from '@/views/Home/HomeInput/HomeInputButton.vue'
 import Mask from '@/components/Mask.vue'
 
@@ -24,9 +24,25 @@ export default defineComponent({
       store.dispatch('exchange_input_status', { nowStatus: nowStatus.value })
     }
 
+    // listening input
+    const smiles = ref('')
+    const notAllowed = computed(() => smiles.value === '')
+
+    // mask msg
+    const maskMsg = 'Single SMILES'
+
+    // button function
+    function fillExample () {
+      smiles.value = 'CC1=CN=C(C(=C1OC)C)CS(=O)C2=NC3=C(N2)C=C(C=C3)OC'
+    }
+
     return {
       nowStatus,
-      adjustedWidth
+      smiles,
+      notAllowed,
+      maskMsg,
+      adjustedWidth,
+      fillExample
     }
   }
 })

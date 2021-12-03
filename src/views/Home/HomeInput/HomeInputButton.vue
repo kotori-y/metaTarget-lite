@@ -1,7 +1,7 @@
 <template>
 <div class="input-button">
-  <button type="button" class="btn btn-outline-dark ac">Example</button>
-  <button type="button" class="btn btn-outline-success">Submit</button>
+  <button type="button" class="btn btn-outline-dark active" @click="fillExample">Example</button>
+  <button type="button" :class="{btn:true, 'btn-outline-success': true, disabled: notAllowed, active: !notAllowed}">Submit</button>
 </div>
 </template>
 
@@ -9,7 +9,11 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'HomeInputButton'
+  name: 'HomeInputButton',
+  props: {
+    notAllowed: Boolean,
+    fillExample: Function
+  }
 })
 </script>
 
@@ -24,4 +28,10 @@ export default defineComponent({
 .btn {
   width: 20vh;
 }
+
+.btn:focus,.btn:active {
+  outline: none !important;
+  box-shadow: none;
+}
+
 </style>
