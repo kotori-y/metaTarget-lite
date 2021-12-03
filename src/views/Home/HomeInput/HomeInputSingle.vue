@@ -40,24 +40,28 @@ export default defineComponent({
     }
 
     // generate a new task
-    function updateTask () {
+    function addTask (): number {
       const task = {
+        index: store.state.totalTasks + 1,
         name: 'myTask',
         date: getCurrentTime(),
         type: 'SMILES',
         input: smiles.value,
         sites: store.state.selectedSites,
-        status: true
+        status: false
       }
-      store.dispatch('update_task', task)
+      store.dispatch('add_task', task)
+      return task.index
     }
 
     // submit
     async function submit () {
-      updateTask()
+      const index = addTask()
       const token = query(smiles.value, 'sea')
       console.log(token)
-      console.log(await loopQuery(token))
+      const result = JSON.parse(await loopQuery(token))
+      await store.dispatch('update_task', { index })
+      await store.dispatch('record_result', { index, result })
     }
 
     return {

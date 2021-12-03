@@ -6,7 +6,7 @@
       <span class="tag">{{ task.type }}: <span class="content">{{ task.input }}</span></span>
       <span class="site">Site: <span class="site-name">{{ task.sites.join(',') }}</span></span>
       <TaskLoader v-if="!task.status"></TaskLoader>
-      <div class="download" v-if="task.status"></div>
+      <div class="download" v-if="task.status" @click="save(task.index)"></div>
     </div>
   </div>
 </template>
@@ -15,14 +15,22 @@
 import store from '@/store'
 import { computed, defineComponent } from 'vue'
 import TaskLoader from '@/views/Tasks/TaskLoader.vue'
+import { download } from '@/views/Tasks/download'
 
 export default defineComponent({
   name: 'TaskIndex',
   components: { TaskLoader },
   setup () {
     const tasks = computed(() => store.state.tasks)
+
+    function save (index: number) {
+      const jsonData = store.state.cachedResult.get(index) as JSON
+      download(jsonData)
+    }
+
     return {
-      tasks
+      tasks,
+      save
     }
   }
 })

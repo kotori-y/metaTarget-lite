@@ -15,7 +15,8 @@ const store = createStore({
     inputActiveStatus: [true, false] as [boolean, boolean],
     selectedSites: [] as Array<string>,
     tasks: [] as Array<Task>,
-    totalTasks: 0 as number
+    totalTasks: 0 as number,
+    cachedResult: new Map() as Map<number, JSON>
   },
   mutations: {
     EXCHANGE_INPUT_STATUS (state) {
@@ -29,10 +30,20 @@ const store = createStore({
       }
       state.selectedSites = state.selectedSites.filter(site => site !== params.site)
     },
-    UPDATE_TASK (state, params) {
+    ADD_TASK (state, params: Task) {
       state.totalTasks++
-      params.index = state.totalTasks
       state.tasks.push(params as Task)
+    },
+    UPDATE_TASK (state, params: {index: number}) {
+      state.tasks.map(task => {
+        if (task.index === params.index) {
+          task.status = true
+        }
+        return task
+      })
+    },
+    RECORD_RESULT (state, params: {index: number, result: JSON}) {
+      state.cachedResult.set(params.index, params.result)
     }
   },
   actions: {
@@ -42,8 +53,14 @@ const store = createStore({
     update_selected_websites (context, params: {site: string, select: boolean}) {
       context.commit('UPDATE_SELECTED_WEBSITES', params)
     },
-    update_task (context, params) {
+    add_task (context, params: Task) {
+      context.commit('ADD_TASK', params)
+    },
+    update_task (context, params: {index: number}) {
       context.commit('UPDATE_TASK', params)
+    },
+    record_result (context, params: {index: number, result: JSON}) {
+      context.commit('RECORD_RESULT', params)
     }
   },
   modules: {
