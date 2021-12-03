@@ -1,0 +1,16 @@
+.input-mol {
+    width: 15%;
+    margin: 3vh 4vw;
+    background: rgba(250, 235, 215, 0.7);
+    border-radius: 20px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    transition: linear 0.3s;
+}
+
+.input-mol.active {
+    width: 80%;
+}

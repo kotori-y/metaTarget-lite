@@ -1,22 +1,24 @@
 <template>
-  <div class="input-mol" @click="adjustedWidth" ref="container">
+  <div :class="{'input-mol': true, active: nowStatus}" @click="adjustedWidth">
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import './style.css'
+import store from '@/store'
+import { defineComponent, computed } from 'vue'
 
 export default defineComponent({
   name: 'HomeInputFile',
   setup () {
     // Adjusted width
-    const container = ref(null)
-    function adjustedWidth ($event: Event) {
-      console.log($event.target, 123, container)
+    const nowStatus = computed(() => store.state.inputActiveStatus[1])
+    function adjustedWidth () {
+      store.dispatch('exchange_input_status', { nowStatus: nowStatus.value })
     }
 
     return {
-      container,
+      nowStatus,
       adjustedWidth
     }
   }
@@ -24,22 +26,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
-.input-mol {
-  width: 15%;
-  margin: 3vh 4vw;
-  background: rgba(250, 235, 215, 0.7);
-  border-radius: 20px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.input-mol.active {
-  width: 80%;
-}
 
 .input-mol label {
   font-size: 24px;

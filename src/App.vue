@@ -1,7 +1,7 @@
 <template>
   <Navibar/>
   <router-view v-slot="{ Component }">
-    <keep-alive include="Home">
+    <keep-alive include="HomeIndex">
       <component :is="Component" />
     </keep-alive>
   </router-view>

@@ -1,13 +1,15 @@
 <template>
-  <div class="input-mol active" @click="adjustedWidth" ref="container">
-    <label for="single-smiles">Input your SMILES following...</label>
-    <input id="single-smiles" type="text" placeholder="Input your SMILES here...">
-    <HomeInputButton/>
+  <div :class="{'input-mol': true, active: nowStatus}" @click="adjustedWidth">
+    <label v-show="nowStatus" for="single-smiles">Input your SMILES following...</label>
+    <input v-show="nowStatus" id="single-smiles" type="text" placeholder="Input your SMILES here...">
+    <HomeInputButton v-show="nowStatus"></HomeInputButton>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import './style.css'
+import store from '@/store'
+import { computed, defineComponent } from 'vue'
 import HomeInputButton from '@/views/Home/HomeInput/HomeInputButton.vue'
 
 export default defineComponent({
@@ -15,13 +17,13 @@ export default defineComponent({
   components: { HomeInputButton },
   setup () {
     // Adjusted width
-    const container = ref(null)
-    function adjustedWidth ($event: Event) {
-      console.log($event.target, container)
+    const nowStatus = computed(() => store.state.inputActiveStatus[0])
+    function adjustedWidth () {
+      store.dispatch('exchange_input_status', { nowStatus: nowStatus.value })
     }
 
     return {
-      container,
+      nowStatus,
       adjustedWidth
     }
   }
@@ -29,22 +31,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
-.input-mol {
-  width: 15%;
-  margin: 3vh 4vw;
-  background: rgba(250, 235, 215, 0.7);
-  border-radius: 20px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.input-mol.active {
-  width: 80%;
-}
 
 .input-mol label {
   font-size: 24px;
