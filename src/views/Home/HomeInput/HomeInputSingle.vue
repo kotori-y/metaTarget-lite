@@ -1,8 +1,9 @@
 <template>
-  <div :class="{'input-mol': true, active: nowStatus}" @click="adjustedWidth">
+  <div :class="{'input-mol': true, active: nowStatus}">
     <label v-show="nowStatus" for="single-smiles">Input your SMILES following...</label>
     <input v-show="nowStatus" id="single-smiles" type="text" placeholder="Input your SMILES here...">
     <HomeInputButton v-show="nowStatus"></HomeInputButton>
+    <Mask v-show="!nowStatus" @click="adjustedWidth"></Mask>
   </div>
 </template>
 
@@ -11,10 +12,11 @@ import './style.css'
 import store from '@/store'
 import { computed, defineComponent } from 'vue'
 import HomeInputButton from '@/views/Home/HomeInput/HomeInputButton.vue'
+import Mask from '@/components/Mask.vue'
 
 export default defineComponent({
   name: 'HomeInputSingle',
-  components: { HomeInputButton },
+  components: { Mask, HomeInputButton },
   setup () {
     // Adjusted width
     const nowStatus = computed(() => store.state.inputActiveStatus[0])

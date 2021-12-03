@@ -1,5 +1,6 @@
 <template>
-  <div :class="{'input-mol': true, active: nowStatus}" @click="adjustedWidth">
+  <div :class="{'input-mol': true, active: nowStatus}">
+    <Mask v-show="!nowStatus" @click="adjustedWidth"></Mask>
   </div>
 </template>
 
@@ -7,14 +8,16 @@
 import './style.css'
 import store from '@/store'
 import { defineComponent, computed } from 'vue'
+import Mask from '@/components/Mask.vue'
 
 export default defineComponent({
   name: 'HomeInputFile',
+  components: { Mask },
   setup () {
     // Adjusted width
     const nowStatus = computed(() => store.state.inputActiveStatus[1])
     function adjustedWidth () {
-      store.dispatch('exchange_input_status', { nowStatus: nowStatus.value })
+      store.dispatch('exchange_input_status')
     }
 
     return {

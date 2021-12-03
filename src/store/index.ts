@@ -11,10 +11,8 @@ const store = createStore({
     }
   },
   actions: {
-    exchange_input_status (context, params: {nowStatus: boolean}) {
-      if (!params.nowStatus) {
-        context.commit('EXCHANGE_INPUT_STATUS')
-      }
+    exchange_input_status (context) {
+      context.commit('EXCHANGE_INPUT_STATUS')
     }
   },
   modules: {
