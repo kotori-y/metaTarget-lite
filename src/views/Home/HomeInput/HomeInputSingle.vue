@@ -2,7 +2,7 @@
   <div :class="{'input-mol': true, active: nowStatus}">
     <label v-show="nowStatus" for="single-smiles">Input your SMILES following...</label>
     <input v-show="nowStatus" v-model="smiles" id="single-smiles" type="text" placeholder="Input your SMILES here...">
-    <HomeInputButton v-show="nowStatus" :not-allowed="notAllowed" :fill-example="fillExample"></HomeInputButton>
+    <HomeInputButton v-show="nowStatus" :not-allowed="notAllowed" :fill-example="fillExample" :submit="submit"></HomeInputButton>
     <Mask v-show="!nowStatus" @click="adjustedWidth" :msg="maskMsg"></Mask>
   </div>
 </template>
@@ -13,6 +13,8 @@ import store from '@/store'
 import { computed, defineComponent, ref } from 'vue'
 import HomeInputButton from '@/views/Home/HomeInput/HomeInputButton.vue'
 import Mask from '@/components/Mask.vue'
+import { loopQuery } from '@/views/Home/HomeInput/scripts/loopQuery'
+import { query } from '@/views/Home/HomeInput/scripts/querySingleMol'
 
 export default defineComponent({
   name: 'HomeInputSingle',
@@ -36,13 +38,21 @@ export default defineComponent({
       smiles.value = 'CC1=CN=C(C(=C1OC)C)CS(=O)C2=NC3=C(N2)C=C(C=C3)OC'
     }
 
+    // submit
+    async function submit () {
+      const token = query(smiles.value, 'sea')
+      console.log(token)
+      console.log(await loopQuery(token))
+    }
+
     return {
       nowStatus,
       smiles,
       notAllowed,
       maskMsg,
       adjustedWidth,
-      fillExample
+      fillExample,
+      submit
     }
   }
 })

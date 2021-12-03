@@ -1,7 +1,7 @@
 <template>
 <div class="input-button">
   <button type="button" class="btn btn-outline-dark active" @click="fillExample">Example</button>
-  <button type="button" :class="{btn:true, 'btn-outline-success': true, disabled: notAllowed, active: !notAllowed}">Submit</button>
+  <button type="button" :class="{btn:true, 'btn-outline-success': true, disabled: notAllowed, active: !notAllowed}" @click.prevent="submit">Submit</button>
 </div>
 </template>
 
@@ -12,7 +12,8 @@ export default defineComponent({
   name: 'HomeInputButton',
   props: {
     notAllowed: Boolean,
-    fillExample: Function
+    fillExample: Function,
+    submit: Function
   }
 })
 </script>
