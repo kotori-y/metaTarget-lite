@@ -2,7 +2,7 @@
   <div :class="{'input-mol': true, active: nowStatus}">
     <label v-show="nowStatus" for="single-smiles">Input your SMILES following...</label>
     <input v-show="nowStatus" v-model="smiles" id="single-smiles" type="text" placeholder="Input your SMILES here...">
-    <HomeInputButton v-show="nowStatus" :not-allowed="notAllowed" :fill-example="fillExample" :submit="submit"></HomeInputButton>
+    <HomeInputButton v-show="nowStatus" :not-allowed="!allowed" :fill-example="fillExample" :submit="submit"></HomeInputButton>
     <Mask v-show="!nowStatus" @click="adjustedWidth" :msg="maskMsg"></Mask>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default defineComponent({
 
     // listening input
     const smiles = ref('')
-    const notAllowed = computed(() => smiles.value === '')
+    const allowed = computed(() => smiles.value && store.state.selectedSites.length >= 1)
 
     // mask msg
     const maskMsg = 'Single SMILES'
@@ -67,7 +67,7 @@ export default defineComponent({
     return {
       nowStatus,
       smiles,
-      notAllowed,
+      allowed,
       maskMsg,
       adjustedWidth,
       fillExample,
