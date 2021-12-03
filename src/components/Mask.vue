@@ -18,7 +18,7 @@ export default defineComponent({
   height: 100%;
   background-color: transparent;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 10px;
   z-index: 999;
 }
 

@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 
 const store = createStore({
   state: {
-    inputActiveStatus: [true, false] as [boolean, boolean]
+    inputActiveStatus: [false, true] as [boolean, boolean]
   },
   mutations: {
     EXCHANGE_INPUT_STATUS (state) {
