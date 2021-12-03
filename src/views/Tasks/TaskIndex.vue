@@ -1,29 +1,30 @@
 <template>
   <div id="task">
-    <div class="task row-1">
-      <span class="index">#1 My Task</span>
-      <span class="time">2021-12-03 21:35:17</span>
-      <span class="tag">SMILES: <span class="content">CCCCCCCCC</span></span>
-      <span class="site">Site: <span class="site-name">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span></span>
-      <TaskLoader/>
-    </div>
-    <div class="task row-2">
-      <span class="index">#1 My Task</span>
-      <span class="time">2021-12-03 21:35:17</span>
-      <span class="tag">SMILES: <span class="content">CCCCCCCCC</span></span>
-      <span class="site">Site: <span class="site-name">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span></span>
-      <div class="download"></div>
+    <div v-for="(task, idx) in tasks" :key="idx" class="task">
+      <span class="index">#{{ task.index }} {{ task.name }}</span>
+      <span class="time">{{ task.date }}</span>
+      <span class="tag">{{ task.type }}: <span class="content">{{ task.input }}</span></span>
+      <span class="site">Site: <span class="site-name">{{ task.sites.join(',') }}</span></span>
+      <TaskLoader v-if="!task.status"></TaskLoader>
+      <div class="download" v-if="task.status"></div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import store from '@/store'
+import { computed, defineComponent } from 'vue'
 import TaskLoader from '@/views/Tasks/TaskLoader.vue'
 
 export default defineComponent({
   name: 'TaskIndex',
-  components: { TaskLoader }
+  components: { TaskLoader },
+  setup () {
+    const tasks = computed(() => store.state.tasks)
+    return {
+      tasks
+    }
+  }
 })
 </script>
 
@@ -36,15 +37,13 @@ export default defineComponent({
   background-image: url("../../assets/bg.png");
   background-size: cover;
   overflow: scroll;
-  display: grid;
-  grid-template-columns: 45vw 45vw;
-  grid-column-gap: 8vw;
 }
 
 .task {
   /*position: relative;*/
   background: rgba(215, 226, 226, 0.72);
   height: 17vh;
+  width: 90vw;
   margin-top: 5vh;
   text-indent: 1vw;
   border-radius: 10px;
@@ -52,14 +51,8 @@ export default defineComponent({
   flex-direction: column;
   justify-content: space-evenly;
   position: relative;
-}
-
-.task.row-1 {
-  margin-left: 5vw;
-}
-
-.task.row-2 {
-  margin-right: 5vw;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .task span {
@@ -84,11 +77,6 @@ export default defineComponent({
   font-weight: 300;
 }
 
-.site {
-  word-break: break-all;
-  max-width: 30vw;
-}
-
 .site-name {
   font-size: 12px;
 }
@@ -100,6 +88,7 @@ export default defineComponent({
   background-size: cover;
   position: absolute;
   right: 3vw;
+  cursor: pointer;
 }
 
 </style>

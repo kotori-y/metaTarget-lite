@@ -15,6 +15,7 @@ import HomeInputButton from '@/views/Home/HomeInput/HomeInputButton.vue'
 import Mask from '@/components/Mask.vue'
 import { loopQuery } from '@/views/Home/HomeInput/scripts/loopQuery'
 import { query } from '@/views/Home/HomeInput/scripts/querySingleMol'
+import { getCurrentTime } from '@/views/Home/HomeInput/scripts/time'
 
 export default defineComponent({
   name: 'HomeInputSingle',
@@ -38,8 +39,22 @@ export default defineComponent({
       smiles.value = 'CC1=CN=C(C(=C1OC)C)CS(=O)C2=NC3=C(N2)C=C(C=C3)OC'
     }
 
+    // generate a new task
+    function updateTask () {
+      const task = {
+        name: 'myTask',
+        date: getCurrentTime(),
+        type: 'SMILES',
+        input: smiles.value,
+        sites: store.state.selectedSites,
+        status: true
+      }
+      store.dispatch('update_task', task)
+    }
+
     // submit
     async function submit () {
+      updateTask()
       const token = query(smiles.value, 'sea')
       console.log(token)
       console.log(await loopQuery(token))
