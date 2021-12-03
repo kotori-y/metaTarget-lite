@@ -4,7 +4,26 @@ const axios = require('axios')
 const { v4 } = require('uuid')
 
 export function query (smiles: string, website: string): string {
-  const url = `http://0.0.0.0:8001/${website}`
+  let site = ''
+
+  switch (website) {
+    case 'SEA':
+      site = 'sea'
+      break
+    case 'Swiss':
+      site = 'swiss'
+      break
+    case 'PassOnline':
+      site = 'passonline'
+      break
+    case 'TargetHunter':
+      site = 'targethunter'
+      break
+    case 'TargetNet':
+      site = 'targetnet'
+  }
+
+  const url = `http://0.0.0.0:8001/${site}`
   const token: string = v4()
   try {
     axios({
@@ -21,5 +40,3 @@ export function query (smiles: string, website: string): string {
     return ''
   }
 }
-
-(() => query('CCCC', 'sea'))()

@@ -2,7 +2,7 @@
   <div :class="{'input-mol': true, active: nowStatus}">
     <label v-show="nowStatus" for="single-smiles">Input your SMILES following...</label>
     <input v-show="nowStatus" v-model="smiles" id="single-smiles" type="text" placeholder="Input your SMILES here...">
-    <HomeInputButton v-show="nowStatus" :not-allowed="!allowed" :fill-example="fillExample" :submit="submit"></HomeInputButton>
+    <HomeInputButton v-show="nowStatus" :not-allowed="!allowed" :fill-example="fillExample" :submit="start"></HomeInputButton>
     <Mask v-show="!nowStatus" @click="adjustedWidth" :msg="maskMsg"></Mask>
   </div>
 </template>
@@ -40,14 +40,14 @@ export default defineComponent({
     }
 
     // generate a new task
-    function addTask (): number {
+    function addTask (site: string): number {
       const task = {
         index: store.state.totalTasks + 1,
         name: 'myTask',
         date: getCurrentTime(),
         type: 'SMILES',
         input: smiles.value,
-        sites: store.state.selectedSites,
+        sites: site,
         status: false
       }
       store.dispatch('add_task', task)
@@ -55,13 +55,22 @@ export default defineComponent({
     }
 
     // submit
-    async function submit () {
-      const index = addTask()
-      const token = query(smiles.value, 'sea')
+    async function submit (site: string) {
+      const index = addTask(site)
+      const token = query(smiles.value, site)
       console.log(token)
       const result = JSON.parse(await loopQuery(token))
       await store.dispatch('update_task', { index })
-      await store.dispatch('record_result', { index, result })
+      await store.dispatch('record_result', {
+        index,
+        result
+      })
+    }
+
+    function start () {
+      for (const site of store.state.selectedSites) {
+        submit(site)
+      }
     }
 
     return {
@@ -71,7 +80,7 @@ export default defineComponent({
       maskMsg,
       adjustedWidth,
       fillExample,
-      submit
+      start
     }
   }
 })

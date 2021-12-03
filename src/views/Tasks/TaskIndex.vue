@@ -4,7 +4,7 @@
       <span class="index">#{{ task.index }} {{ task.name }}</span>
       <span class="time">{{ task.date }}</span>
       <span class="tag">{{ task.type }}: <span class="content">{{ task.input }}</span></span>
-      <span class="site">Site: <span class="site-name">{{ task.sites.join(',') }}</span></span>
+      <span class="site">Site: <span class="site-name">{{ task.sites}}</span></span>
       <TaskLoader v-if="!task.status"></TaskLoader>
       <div class="download" v-if="task.status" @click="save(task.index)"></div>
     </div>
