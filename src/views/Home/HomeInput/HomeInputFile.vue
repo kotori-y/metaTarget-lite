@@ -5,7 +5,7 @@
       <span>Upload or drop your .xml file</span>
     </div>
     <HomeInputButton v-show="nowStatus"></HomeInputButton>
-    <Mask v-show="!nowStatus" @click="adjustedWidth"></Mask>
+    <Mask v-show="!nowStatus" @click="adjustedWidth" :msg="maskMsg"></Mask>
   </div>
 </template>
 
@@ -26,8 +26,12 @@ export default defineComponent({
       store.dispatch('exchange_input_status')
     }
 
+    // mask msg
+    const maskMsg = 'SMILES File'
+
     return {
       nowStatus,
+      maskMsg,
       adjustedWidth
     }
   }
