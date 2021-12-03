@@ -2,6 +2,7 @@
   <div id="home">
     <div class="data-container">
       <HomeInputIndex/>
+      <HomeSelectIndex/>
     </div>
   </div>
 </template>
@@ -9,10 +10,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import HomeInputIndex from '@/views/Home/HomeInput/HomeInputIndex.vue'
+import HomeSelectIndex from '@/views/Home/HomeSelect/HomeSelectIndex.vue'
 
 export default defineComponent({
   name: 'HomeIndex',
-  components: { HomeInputIndex }
+  components: { HomeSelectIndex, HomeInputIndex }
 })
 </script>
 

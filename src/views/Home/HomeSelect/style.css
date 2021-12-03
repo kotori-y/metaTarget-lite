@@ -1,0 +1,30 @@
+.website {
+    width: 15%;
+    height: 100%;
+    background: #f0f8ffb0;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0 0 0 1px;
+    cursor: pointer;
+    transition: linear 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.website.active {
+    background: #f0f8ff;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 19px 38px, rgba(0, 0, 0, 0.22) 0 15px 12px;
+}
+
+.website span {
+    font-size: 18px;
+    font-family: monospace;
+    transition: linear 0.2s;
+}
+
+.website span.active {
+    font-weight: bolder;
+    font-size: 20px;
+}
