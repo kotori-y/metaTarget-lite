@@ -21,6 +21,31 @@ export function query (smiles: string, website: string): string {
       break
     case 'TargetNet':
       site = 'targetnet'
+      break
+    case 'DNN(ECfp4)':
+      site = 'ppb2-1'
+      break
+    case 'NB(ECfp4)':
+      site = 'ppb2-2'
+      break
+    case 'NN(MQN) & NB(ECfp4)':
+      site = 'ppb2-3'
+      break
+    case 'NN(Xfp) & NB(ECfp4)':
+      site = 'ppb2-4'
+      break
+    case 'NN(ECfp4) & NB(ECfp4)':
+      site = 'ppb2-5'
+      break
+    case 'NN(MQN)':
+      site = 'ppb2-6'
+      break
+    case 'NN(Xfp)':
+      site = 'ppb2-7'
+      break
+    case 'NN(ECfp4)':
+      site = 'ppb2-8'
+      break
   }
 
   const url = `http://152.136.139.114:8002/${site}`
