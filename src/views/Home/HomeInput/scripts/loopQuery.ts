@@ -24,22 +24,6 @@ async function obtainResult (token: string): Promise<string> {
   return resp.data
 }
 
-// export async function loopQuery (token: string): Promise<void> {
-//   interval(10000, (task: NodeJS.Timeout, resolve: () => void) => {
-//     obtainResult(token).then((result) => {
-//       if (JSON.stringify(result) !== JSON.stringify({})) {
-//         clearInterval(task)
-//         resolve()
-//         return 123
-//       }
-//     })
-//     console.log('waiting')
-//   }).then((result) => {
-//     console.log('ok')
-//     console.log(result)
-//   })
-// }
-
 export async function loopQuery (token: string): Promise<string> {
   const result = await obtainResult(token)
   if (result === JSON.stringify({})) {

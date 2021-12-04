@@ -31,7 +31,8 @@ const store = createStore({
     selectedSites: {} as siteStatus,
     tasks: [] as Array<Task>,
     totalTasks: 0 as number,
-    cachedResult: new Map() as Map<number, JSON>
+    cachedResult: new Map() as Map<number, JSON>,
+    fileSelected: false as boolean
   },
   mutations: {
     EXCHANGE_INPUT_STATUS (state) {
@@ -63,6 +64,13 @@ const store = createStore({
     },
     RECORD_RESULT (state, params: {index: number, result: JSON}) {
       state.cachedResult.set(params.index, params.result)
+    },
+    CHANGE_STATUS (state, params) {
+      switch (params.name) {
+        case 'file':
+          state.fileSelected = true
+          break
+      }
     }
   },
   actions: {
@@ -89,6 +97,9 @@ const store = createStore({
     },
     record_result (context, params: {index: number, result: JSON}) {
       context.commit('RECORD_RESULT', params)
+    },
+    change_status (context, params: {name: string}) {
+      context.commit('CHANGE_STATUS', params)
     }
   },
   modules: {
