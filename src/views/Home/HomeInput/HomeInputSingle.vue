@@ -29,7 +29,8 @@ export default defineComponent({
 
     // listening input
     const smiles = ref('')
-    const allowed = computed(() => smiles.value && store.state.selectedSites.length >= 1)
+    const nSelected = computed(() => Object.values(store.state.selectedSites).some(site => site))
+    const allowed = computed(() => smiles.value && nSelected.value)
 
     // mask msg
     const maskMsg = 'Single SMILES'
@@ -68,9 +69,12 @@ export default defineComponent({
     }
 
     function start () {
-      for (const site of store.state.selectedSites) {
-        submit(site)
+      for (const [site, value] of Object.entries(store.state.selectedSites)) {
+        console.log(site, value)
+        if (value) submit(site)
       }
+      smiles.value = ''
+      store.dispatch('clear_selected')
     }
 
     return {

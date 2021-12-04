@@ -16,7 +16,7 @@ const sleep = (delay: number) => new Promise<void>(resolve => {
 })
 
 async function obtainResult (token: string): Promise<string> {
-  const url = `http://127.0.0.1:8001/res/${token}`
+  const url = `http://152.136.139.114:8002/res/${token}`
   const resp = await axios({
     method: 'get',
     url

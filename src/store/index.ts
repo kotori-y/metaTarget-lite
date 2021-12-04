@@ -10,10 +10,14 @@ interface Task {
   status: boolean
 }
 
+interface siteStatus {
+  [key: string]: boolean | null
+}
+
 const store = createStore({
   state: {
     inputActiveStatus: [true, false] as [boolean, boolean],
-    selectedSites: [] as Array<string>,
+    selectedSites: {} as siteStatus,
     tasks: [] as Array<Task>,
     totalTasks: 0 as number,
     cachedResult: new Map() as Map<number, JSON>
@@ -24,11 +28,12 @@ const store = createStore({
       state.inputActiveStatus = tmp.map(elem => !elem) as [boolean, boolean]
     },
     UPDATE_SELECTED_WEBSITES (state, params: {site: string, select: boolean}) {
-      if (params.select) {
-        state.selectedSites.push(params.site)
-        return
+      state.selectedSites[params.site] = params.select
+    },
+    CLEAR_SELECTED (state) {
+      for (const site of Object.keys(state.selectedSites)) {
+        state.selectedSites[site] = false
       }
-      state.selectedSites = state.selectedSites.filter(site => site !== params.site)
     },
     ADD_TASK (state, params: Task) {
       state.totalTasks++
@@ -52,6 +57,9 @@ const store = createStore({
     },
     update_selected_websites (context, params: {site: string, select: boolean}) {
       context.commit('UPDATE_SELECTED_WEBSITES', params)
+    },
+    clear_selected (context) {
+      context.commit('CLEAR_SELECTED')
     },
     add_task (context, params: Task) {
       context.commit('ADD_TASK', params)

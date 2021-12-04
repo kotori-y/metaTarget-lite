@@ -1,5 +1,7 @@
 {
   "name": "meta-target",
+  "productName": "STN Extractor",
+  "author": "Kotori Y",
   "version": "0.1.0",
   "private": true,
   "scripts": {

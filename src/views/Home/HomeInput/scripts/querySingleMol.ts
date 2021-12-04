@@ -23,7 +23,7 @@ export function query (smiles: string, website: string): string {
       site = 'targetnet'
   }
 
-  const url = `http://0.0.0.0:8001/${site}`
+  const url = `http://152.136.139.114:8002/${site}`
   const token: string = v4()
   try {
     axios({
