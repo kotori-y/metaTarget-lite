@@ -45,7 +45,7 @@ export async function loopQuery (token: string): Promise<string> {
   if (result === JSON.stringify({})) {
     await sleep(10000)
     console.log('waiting')
-    return await loopQuery(token)
+    return loopQuery(token)
   }
   return result
 }
