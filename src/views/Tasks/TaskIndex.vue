@@ -1,14 +1,14 @@
 <template>
   <div id="task">
     <div v-for="(task, idx) in tasks" :key="idx" class="task">
-      <span class="index">#{{ task.index }} {{ task.name }}</span>
-      <span class="time">{{ task.date }}</span>
+      <span class="index">#{{ task.index }} {{ task.sites }}</span>
+      <span class="time">Created on: {{ task.date }}</span>
       <span class="tag">{{ task.type }}: <span class="content">{{ task.input }}</span></span>
-      <span class="site">Site: <span class="site-name">{{ task.sites}}</span></span>
       <TaskLoader v-if="!task.status"></TaskLoader>
       <div class="download" v-if="task.status" @click="save(task.index)"></div>
     </div>
   </div>
+  <Mention msg="Saved"></Mention>
 </template>
 
 <script lang="ts">
@@ -16,10 +16,11 @@ import store from '@/store'
 import { computed, defineComponent } from 'vue'
 import TaskLoader from '@/views/Tasks/TaskLoader.vue'
 import { download } from '@/views/Tasks/download'
+import Mention from '@/components/Mention.vue'
 
 export default defineComponent({
   name: 'TaskIndex',
-  components: { TaskLoader },
+  components: { Mention, TaskLoader },
   setup () {
     const tasks = computed(() => store.state.tasks)
 

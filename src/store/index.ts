@@ -13,10 +13,21 @@ interface Task {
 interface siteStatus {
   [key: string]: boolean | null
 }
+//
+// function debounce (fn: () => void, delay: number) {
+//   let timer: NodeJS.Timeout | null = null
+//   return function () {
+//     if (timer) {
+//       clearTimeout(timer)
+//     }
+//     timer = setTimeout(fn, delay) // 简化写法
+//   }
+// }
 
 const store = createStore({
   state: {
     inputActiveStatus: [true, false] as [boolean, boolean],
+    showMention: false as boolean,
     selectedSites: {} as siteStatus,
     tasks: [] as Array<Task>,
     totalTasks: 0 as number,
@@ -34,6 +45,9 @@ const store = createStore({
       for (const site of Object.keys(state.selectedSites)) {
         state.selectedSites[site] = false
       }
+    },
+    CHANGE_MENTION_STATUS (state, status: boolean) {
+      state.showMention = status
     },
     ADD_TASK (state, params: Task) {
       state.totalTasks++
@@ -63,6 +77,12 @@ const store = createStore({
     },
     add_task (context, params: Task) {
       context.commit('ADD_TASK', params)
+    },
+    change_mention_status (context) {
+      context.commit('CHANGE_MENTION_STATUS', true)
+      setTimeout(() => {
+        context.commit('CHANGE_MENTION_STATUS', false)
+      }, 1000)
     },
     update_task (context, params: {index: number}) {
       context.commit('UPDATE_TASK', params)

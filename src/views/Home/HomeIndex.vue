@@ -5,16 +5,24 @@
       <HomeSelectIndex/>
     </div>
   </div>
+  <Mention :msg="msg"></Mention>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import HomeInputIndex from '@/views/Home/HomeInput/HomeInputIndex.vue'
 import HomeSelectIndex from '@/views/Home/HomeSelect/HomeSelectIndex.vue'
+import Mention from '@/components/Mention.vue'
 
 export default defineComponent({
   name: 'HomeIndex',
-  components: { HomeSelectIndex, HomeInputIndex }
+  components: { Mention, HomeSelectIndex, HomeInputIndex },
+  setup () {
+    const msg = 'Tasks are added to the queue'
+    return {
+      msg
+    }
+  }
 })
 </script>
 

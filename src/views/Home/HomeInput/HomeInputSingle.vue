@@ -70,9 +70,9 @@ export default defineComponent({
 
     function start () {
       for (const [site, value] of Object.entries(store.state.selectedSites)) {
-        console.log(site, value)
         if (value) submit(site)
       }
+      store.dispatch('change_mention_status')
       smiles.value = ''
       store.dispatch('clear_selected')
     }
